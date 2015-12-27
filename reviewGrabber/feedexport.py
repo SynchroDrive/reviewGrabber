@@ -6,7 +6,7 @@ CSV writer, resulting in EXPORT_FIELDS and EXPORT_ENCODING being ignored
 
 from scrapy.conf import settings
 from scrapy.contrib.exporter import CsvItemExporter
-
+#CSV importer
 class CSVkwItemExporter(CsvItemExporter):
 
     def __init__(self, *args, **kwargs):
