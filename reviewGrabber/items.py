@@ -7,12 +7,15 @@
 
 import scrapy
 
-
-class Review(scrapy.Item):
+class ReviewItem(scrapy.Item):
 	#Intiliaze fields for the review
-    helpful=scrapy.Field()
-    clarity=scrapy.Field()
-    easy=scrapy.Field()
-    course=scrapy.Field()
-    comment=scrapy.Field
-    date=scrapy.Field
+	professor=scrapy.Field()
+	date=scrapy.Field()
+	course=scrapy.Field()
+	comment=scrapy.Field()
+	helpful=scrapy.Field()
+	clarity=scrapy.Field()
+	easy=scrapy.Field()
+    
+    
+    

@@ -14,7 +14,21 @@ BOT_NAME = 'reviewGrabber'
 SPIDER_MODULES = ['reviewGrabber.spiders']
 NEWSPIDER_MODULE = 'reviewGrabber.spiders'
 
+FEED_EXPORTERS = {
+    'csv': 'reviewGrabber.feedexport.CSVkwItemExporter'
+}
 
+# By specifying the fields to export, the CSV export honors the order
+# rather than using a random order.
+EXPORT_FIELDS = [
+    'professor',
+    'date',
+    'course',
+    'comment',
+    'helpful',
+    'clarity',
+    'easy'
+]
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'reviewGrabber (+http://www.yourdomain.com)'
 

@@ -1,7 +1,7 @@
 import re
 import scrapy
-from bs4 import BeautifulSoup
-
+from scrapy.selector import Selector
+from reviewGrabber.items import ReviewItem
 
 class rmpSpider(scrapy.Spider):
     name = "rmp"
@@ -11,7 +11,21 @@ class rmpSpider(scrapy.Spider):
         'http://www.ratemyprofessors.com/ShowRatings.jsp?tid=951644'
     ]
 
-    def parse(self, response):
-    	soup=BeautifulSoup(response.body, 'lxml')
-    	print("hello")
-    	print(soup)
+    def parse(self, response):        
+    	reviews= response.xpath('//tr[@id]')
+    	counter=0
+    	profFirstName=response.xpath('//*[@id="mainContent"]/div[1]/div[1]/div[2]/div[1]/h1/span[1]/text()').extract()[0].encode('utf-8')
+    	profLastName=response.xpath('//*[@id="mainContent"]/div[1]/div[1]/div[2]/div[1]/h1/span[3]/text()').extract()[0].encode('utf-8').strip(' \r\n')
+    	profName=profFirstName+' '+profLastName
+    	for review in reviews:
+    		print('new one')
+    		counter=counter+1
+    		item = ReviewItem()
+    		item['professor']=profName
+    		item['date']=review.xpath('td[1]/div[1]/text()').extract()[0].encode('utf-8')
+    		item['course']=review.xpath('td[2]/span[1]/span/text()').extract()[0].encode('utf-8')
+    		item['comment']=review.xpath('td[3]/p/text()').extract()[0].encode('utf-8').strip(' \r\n')
+    		item['helpful']=review.xpath('td[1]/div[2]/div[2]/div[1]/span[1]/text()').extract()[0].encode('utf-8')
+    		item['clarity']=review.xpath('td[1]/div[2]/div[2]/div[2]/span[1]/text()').extract()[0].encode('utf-8')
+    		item['easy']=review.xpath('td[1]/div[2]/div[2]/div[3]/span[1]/text()').extract()[0].encode('utf-8')
+    		yield item
